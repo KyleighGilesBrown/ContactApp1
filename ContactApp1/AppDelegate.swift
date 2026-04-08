@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
              application to it.
              */
             // Note: The name must match your .xcdatamodeld file exactly
-            let container = NSPersistentContainer(name: "YourModelName")
+            let container = NSPersistentContainer(name: "MyContactListModel")
             container.loadPersistentStores(completionHandler: { (storeDescription, error) in
                 if let error = error as NSError? {
                     // Replace this implementation with code to handle the error appropriately.
