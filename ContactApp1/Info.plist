@@ -2,8 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This is used to access photos from your camera roll to assign to your contact</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This is used to photograph your contact</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app uses your location to display it on the map</string>
+	<string>This is used to display your current location on the map</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

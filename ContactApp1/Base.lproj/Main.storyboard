@@ -290,6 +290,19 @@
                                     <action selector="changeEditMode:" destination="KxG-xE-qt1" eventType="valueChanged" id="gJt-6c-8au"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eWm-d6-aPA">
+                                <rect key="frame" x="256" y="624" width="109" height="35"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="gray" title="Take Photo"/>
+                                <connections>
+                                    <action selector="changePicture:" destination="KxG-xE-qt1" eventType="touchUpInside" id="42Q-2N-6yW"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="person.crop.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Wcj-b1-eam">
+                                <rect key="frame" x="16" y="575.66666666666652" width="223" height="131"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="OEw-AO-zZv"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -297,7 +310,9 @@
                     <navigationItem key="navigationItem" title="Contact" id="8Y0-cZ-z4r"/>
                     <connections>
                         <outlet property="btnChange" destination="9MV-mz-NaE" id="7Kg-4h-mJc"/>
+                        <outlet property="imgContactPicture" destination="Wcj-b1-eam" id="6CB-0w-eH4"/>
                         <outlet property="lblBirthdate" destination="267-pt-xuh" id="hqh-iH-YDg"/>
+                        <outlet property="lblPhone" destination="rMv-wl-r7l" id="8v2-jj-vvN"/>
                         <outlet property="sgmtEditMode" destination="pjJ-Ak-CF8" id="6px-2h-ar7"/>
                         <outlet property="txtAddress" destination="2Ol-1Q-Cir" id="2Gz-xI-juD"/>
                         <outlet property="txtCell" destination="NaK-Xo-efa" id="cdU-Tf-Zfh"/>
@@ -311,7 +326,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xB4-Zg-ktp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1779" y="-963"/>
+            <point key="canvasLocation" x="1777.8625954198474" y="-963.38028169014092"/>
         </scene>
         <!--Date Picker-->
         <scene sceneID="QGc-BF-zKS">

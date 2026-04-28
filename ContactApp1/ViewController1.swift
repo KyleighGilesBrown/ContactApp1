@@ -7,8 +7,9 @@
 
 import UIKit
 import CoreData
+import AVFoundation
 //contactsViewController
-class ViewController1: UIViewController, UITextFieldDelegate, DateContollerDelegate {
+class ViewController1: UIViewController, UITextFieldDelegate, DateContollerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 
     //delegate pattern is used when you need to pass data backwards — from a child screen back to the parent screen.
     var currentContact: Contact?
@@ -71,8 +72,71 @@ class ViewController1: UIViewController, UITextFieldDelegate, DateContollerDeleg
     
     @IBOutlet weak var btnChange: UIButton!
     
+    
+    @IBOutlet weak var imgContactPicture: UIImageView!
+    
+    @IBOutlet weak var lblPhone: UILabel!
+    
+    
+    @IBAction func changePicture(_ sender: Any) {
+        if AVCaptureDevice.authorizationStatus(for: AVMediaType.video) != AVAuthorizationStatus.authorized {
+            let alertController = UIAlertController(title: "Camera access denied" , message: "In order to take pictures, you neeed to allow the app to access the camera in the Settings.", preferredStyle: .alert)
+            let actionSettings = UIAlertAction(title: "Open Settings", style:.default) { action in
+                self.openSettings()
+            }
+            let actionCancel = UIAlertAction(title: "Cancel", style: .cancel,handler: nil)
+            alertController.addAction(actionSettings)
+            alertController.addAction(actionCancel)
+            present(alertController, animated: true, completion: nil)
+            
+        }
+        else
+        {
+            if UIImagePickerController.isSourceTypeAvailable(.camera){
+                let cameraController = UIImagePickerController()
+                cameraController.sourceType = .camera
+                cameraController.cameraCaptureMode = .photo
+                cameraController.delegate = self
+                cameraController.allowsEditing = true
+                self.present(cameraController,animated: true, completion: nil)
+            }}}
+    func openSettings() {
+        if let settingsUrl = URL(string: UIApplication.openSettingsURLString) {
+            if #available(iOS 10.0, *) {
+                UIApplication.shared.open(settingsUrl, options: [:], completionHandler: nil) } else {
+                    UIApplication.shared.openURL(settingsUrl)
+                }
+            }
+        }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[.editedImage] as? UIImage {
+            imgContactPicture.contentMode = .scaleAspectFit
+            imgContactPicture.image = image
+            if currentContact == nil {
+                let context = appDelegate.persistentContainer.viewContext
+                currentContact = Contact(context: context)
+            }
+            currentContact?.image = image.jpegData(compressionQuality: 1.0)
+        }
+        
+        dismiss(animated:true, completion: nil)
+    }
+    
+@objc func callPhone(gesture: UILongPressGestureRecognizer) {
+    if gesture.state == .began {
+        let number = txtCell.text
+        if number!.count > 0 {
+            let url = URL(string: "tel://\(number!)")
+            UIApplication.shared.open(url! as URL, options: [:], completionHandler: nil)
+            print("Calling Phone Number: \(url!)")
+        }}}
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        lblPhone.isUserInteractionEnabled = true
+        let longPress = UILongPressGestureRecognizer.init(target: self, action: #selector(callPhone(gesture:)))
+        lblPhone.addGestureRecognizer(longPress)
         if currentContact != nil {
             txtName.text = currentContact!.contactName
             txtAddress.text = currentContact!.streetAddress
@@ -87,11 +151,15 @@ class ViewController1: UIViewController, UITextFieldDelegate, DateContollerDeleg
             if currentContact!.birthday != nil {
                 lblBirthdate.text = formatter.string(from: currentContact!.birthday as! Date)
             }
+            if let imageData = currentContact?.image as? Data {
+                imgContactPicture.image = UIImage(data: imageData)
+            }
+         
         }
         changeEditMode(self)
         let textFields: [UITextField] = [txtName, txtAddress, txtCity, txtState, txtZip, txtPhone, txtCell, txtEmail]
                 for textField in textFields {
-                    textField.addTarget(self, action: #selector(UITextFieldDelegate.textFieldShouldEndEditing(_:)), for: UIControl.Event.editingDidEnd)
+                    textField.delegate = self
                 }
         // Do any additional setup after loading the view.
         self.changeEditMode(self)
@@ -158,5 +226,7 @@ class ViewController1: UIViewController, UITextFieldDelegate, DateContollerDeleg
             dateController.delegate = self
         }
     }
+    
+
     
 }

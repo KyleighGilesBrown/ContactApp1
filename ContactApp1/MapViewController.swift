@@ -39,7 +39,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate, MKMapViewD
             longitude: location.coordinate.longitude
         )
         mp.title = "\(contact.contactName ?? "")"
-        mp.subtitle = "\(contact.streetAddress ?? ""), \(contact.city ?? "") \(contact.state ?? "")"
+        mp.subtitle = "\(contact.streetAddress ?? ""), \(contact.city ?? "") \(contact.state ?? "") \(contact.email ?? "")"
         
         DispatchQueue.main.async {
             self.mapView.addAnnotation(mp)
